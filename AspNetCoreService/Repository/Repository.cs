@@ -51,9 +51,14 @@ namespace AspNetCoreService.Repository
         public async Task<bool> DeleteUser(Guid id)
         {
             var current = _usersContext.Users.FirstOrDefault(u => u.Id == id);
-            _usersContext.Users.Remove(current);
+            if (current == null)
+            {
+                return false;
+            }
 
+            _usersContext.Users.Remove(current);
             await _usersContext.SaveChangesAsync();
+
             return true;
         }
     }
